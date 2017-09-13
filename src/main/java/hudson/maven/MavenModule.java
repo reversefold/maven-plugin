@@ -556,6 +556,9 @@ public class MavenModule extends AbstractMavenProject<MavenModule,MavenBuild> im
         //Create a map of groupId:artifact id keys to modules for faster look ups in findMatchingDependentModule
         Multimap<ModuleName,ModuleDependency> mapModules = data.byName();
 
+        //Our parent is a dependency when it comes to builds and releases, so include it in the graph
+        graph.addDependency(new MavenModuleDependency(nodeOf(getParent().getRootModule()), nodeOf(this)));
+
         for (ModuleDependency d : dependencies) {
             MavenModule src;
 
